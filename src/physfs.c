@@ -3460,3 +3460,10 @@ void __PHYSFS_DirTreeDeinit(__PHYSFS_DirTree *dt)
 
 /* end of physfs.c ... */
 
+//dnd custom
+void PHYSFS_setZipGlobalPassword(const char* password) {
+	extern int setZipGlobalPassword;
+	extern PHYSFS_uint8* globalPassword;
+	setZipGlobalPassword = 1;
+	globalPassword = (PHYSFS_uint8*)password;
+}

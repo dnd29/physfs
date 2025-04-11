@@ -3913,6 +3913,8 @@ PHYSFS_DECL int PHYSFS_setRoot(const char *archive, const char *subdir);
 
 /* Everything above this line is part of the PhysicsFS 3.1 API. */
 
+//dnd custom
+PHYSFS_DECL void PHYSFS_setZipGlobalPassword(const char* password);
 
 #ifdef __cplusplus
 }

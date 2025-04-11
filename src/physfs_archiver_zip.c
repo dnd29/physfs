@@ -1535,6 +1535,9 @@ static PHYSFS_Io *zip_get_io(PHYSFS_Io *io, ZIPinfo *inf, ZIPentry *entry)
     return retval;
 } /* zip_get_io */
 
+//dnd custom code
+int setZipGlobalPassword = 0;
+PHYSFS_uint8* globalPassword = NULL;
 
 static PHYSFS_Io *ZIP_openRead(void *opaque, const char *filename)
 {
@@ -1545,8 +1548,9 @@ static PHYSFS_Io *ZIP_openRead(void *opaque, const char *filename)
     PHYSFS_Io *io = NULL;
     PHYSFS_uint8 *password = NULL;
 
-    /* if not found, see if maybe "$PASSWORD" is appended. */
-    if ((!entry) && (info->has_crypto))
+	//dnd custom code
+	/* if not found, see if maybe "$PASSWORD" is appended. */
+	if ((setZipGlobalPassword == 1 || (!entry)) && (info->has_crypto))
     {
         const char *ptr = strrchr(filename, '$');
         if (ptr != NULL)
@@ -1560,6 +1564,11 @@ static PHYSFS_Io *ZIP_openRead(void *opaque, const char *filename)
             __PHYSFS_smallFree(str);
             password = (PHYSFS_uint8 *) (ptr + 1);
         } /* if */
+        
+        //dnd custom code
+		if (password == NULL && setZipGlobalPassword == 1) {
+			password = globalPassword;
+		}
     } /* if */
 
     BAIL_IF_ERRPASS(!entry, NULL);
